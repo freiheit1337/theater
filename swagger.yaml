@@ -1,0 +1,94 @@
+info:
+  title: Theater schedule
+  description: API for theater schedule management
+  version: 0.0.1
+swagger: '2.0'
+produces:
+  - application/json
+host: 'ip:port'
+schemes:
+  - http
+tags:
+  - name: event
+    description: Operations about events
+  - name: healthcheck
+    description: Operations about healthchecks
+paths:
+  /v1/event:
+    post:
+      summary: Create event
+      description: Create event
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: V1Event
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/postV1Event'
+      responses:
+        '201':
+          description: Create event
+      tags:
+        - event
+      operationId: postV1Event
+    get:
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: title
+          type: string
+          required: false
+        - in: query
+          name: id
+          type: integer
+          format: int32
+          required: false
+      responses:
+        '200':
+          description: get Event(s)
+      tags:
+        - event
+      operationId: getV1Event
+  /v1/event/now:
+    get:
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: get Now(s)
+      tags:
+        - event
+      operationId: getV1EventNow
+  /v1/ping:
+    get:
+      summary: healthcheck endpoint
+      description: healthcheck
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: healthcheck
+      tags:
+        - healthcheck
+      operationId: getV1Ping
+definitions:
+  postV1Event:
+    type: object
+    properties:
+      title:
+        type: string
+      start_time:
+        type: integer
+        format: int32
+      end_time:
+        type: integer
+        format: int32
+    required:
+      - title
+      - start_time
+      - end_time
+    description: Create event
